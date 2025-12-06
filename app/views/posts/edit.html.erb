@@ -1,0 +1,15 @@
+<h1 class="h4">投稿編集</h1>
+<%= render 'form', post: @post %>
+
+<% if @post.errors.any? %>
+  <div class="alert alert-danger">
+    <h4>以下のエラーがあります:</h4>
+    <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+

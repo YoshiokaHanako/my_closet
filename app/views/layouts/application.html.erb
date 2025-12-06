@@ -6,6 +6,7 @@
   <%= csp_meta_tag %>
 
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
   <!-- Bootstrap CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Optional: Bootstrap JS -->
@@ -14,40 +15,45 @@
 <body>
   <!-- ヘッダー（ナビバー） -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-  <div class="container">
-    <a class="navbar-brand" href="<%= root_path %>">My Closet</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="container">
+      <a class="navbar-brand" href="<%= root_path %>">My Closet</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
 
-        <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= link_to "My Page", my_page_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <span class="nav-link">Hello, <%= current_user.email %></span>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
+          <% if user_signed_in? %>
+            <!-- 自分の名前付き My Page 表示 -->
+            <li class="nav-item">
+              <%= link_to (current_user.name.present? ? "#{current_user.name}'s closet" : "My Page"), my_page_path, class: "nav-link" %>
+            </li>
+            <!-- 投稿一覧リンク：常に表示 -->
+            <li class="nav-item">
+              <%= link_to "他のユーザーの投稿を見る", posts_path, class: "nav-link" %>
+            </li>
+              <li class="nav-item">
+                <%= link_to "Sign Out", destroy_user_session_path, class: "nav-link" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+              </li>
+            <% end %>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
-
+  </nav>
 
   <!-- ページ固有の内容 -->
-  <%= yield %>
+  <div class="container">
+    <%= yield %>
+  </div>
+
+  <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload', defer: true %>
 </body>
 </html>

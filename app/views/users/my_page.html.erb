@@ -1,0 +1,58 @@
+<h1 class="h4">
+  <%= current_user.name.present? ? "#{current_user.name}'s Closet" : "My Closet" %>
+</h1>
+
+<%= link_to "新規投稿", new_post_path, class: "btn btn-primary mb-3" %>
+<%= link_to "名前を変更", edit_name_user_path, class: "btn btn-warning mb-3" %>
+
+
+
+
+<% if @posts.any? %>
+  <ul class="list-group">
+    <% @posts.each do |post| %>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <!-- 商品名 -->
+            <h5 class="fw-bold"><%= link_to post.item_name, post_path(post) %></h5>
+
+            <!-- カテゴリー -->
+            <p class="mb-1"><strong>カテゴリー:</strong> <%= post.category.name %></p>
+
+            <!-- 画像表示 -->
+            <% if post.image.attached? %>
+              <div class="mb-2">
+                <%= image_tag post.image, class: "img-fluid", style: "max-width: 150px;" %>
+              </div>
+            <% end %>
+
+            <!-- 投稿内容（短縮表示） -->
+            <p class="mb-1"><%= truncate(post.content, length: 100) %></p>
+          </div>
+
+          <!-- 編集・削除ボタン -->
+          <div class="d-flex flex-column gap-1">
+            <%= link_to "編集", edit_post_path(post), class: "btn btn-sm btn-secondary" %>
+            
+            <%= button_to "削除", post_path(post),
+              method: :delete,
+              form: { data: { turbo_confirm: "本当に削除しますか？" } },
+              class: "btn btn-sm btn-danger" %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>まだ投稿はありません。</p>
+<% end %>
+
+<p>投稿数: <%= @posts.count %></p>
+<p>最終投稿: <%= @posts.first.created_at.strftime("%Y/%m/%d") if @posts.any? %></p>
+
+
+<%= link_to "退会", destroy_user_path(current_user),
+    method: :delete,
+    data: { confirm: "本当に退会しますか？" },
+    class: "btn btn-danger mb-3" %>

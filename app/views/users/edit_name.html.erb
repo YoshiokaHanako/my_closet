@@ -1,0 +1,13 @@
+<h1 class="h4">投稿者名を変更</h1>
+
+<%= form_with(model: @user, url: update_name_user_path, local: true) do |f| %>
+  <div class="mb-3">
+    <%= f.label :name, "名前" %>
+    <%= f.text_field :name, class: "form-control", required: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "更新", class: "btn btn-primary" %>
+    <%= link_to "キャンセル", my_page_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

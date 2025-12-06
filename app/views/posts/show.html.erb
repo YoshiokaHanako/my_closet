@@ -1,0 +1,29 @@
+<h1 class="h4 fw-bold"><%= @post.item_name %></h1>
+
+<!-- カテゴリー表示 -->
+<p><strong>カテゴリー:</strong> <%= @post.category.name %></p>
+
+<!-- 画像表示 -->
+<% if @post.image.attached? %>
+  <div class="mb-3">
+    <%= image_tag @post.image, class: "img-fluid" %>
+  </div>
+<% end %>
+
+<!-- 投稿内容 -->
+<p><%= @post.content %></p>
+
+<!-- 編集・削除ボタン -->
+<% if @post.user == current_user %>
+  <div class="d-flex gap-2 mb-3">
+    <!-- 完了ボタン（投稿一覧に戻る） -->
+    <%= link_to "完了", posts_path, class: "btn btn-success" %>
+    <%= link_to "編集", edit_post_path(@post), class: "btn btn-primary" %>
+    <%= link_to "削除", post_path(@post),
+        method: :delete,
+        data: { confirm: "本当に削除しますか？" },
+        class: "btn btn-danger" %>
+  </div>
+<% end %>
+
+

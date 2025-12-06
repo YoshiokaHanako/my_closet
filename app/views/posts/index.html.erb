@@ -1,0 +1,28 @@
+<h1 class="h4">投稿一覧</h1>
+
+<%= link_to "新規投稿", new_post_path, class: "btn btn-primary mb-3" %>
+
+<% @posts.each do |post| %>
+  <div class="mb-4 p-3 border rounded">
+    <!-- 投稿者名 -->
+    <p class="mb-1 text-muted">投稿者: <%= post.user.name %></p>
+
+    <!-- 商品名 -->
+    <h5 class="fw-bold mb-1">
+      <%= link_to post.item_name, post_path(post) %>
+    </h5>
+
+    <!-- カテゴリー表示 -->
+    <p class="mb-1"><strong>カテゴリー:</strong> <%= post.category.name %></p>
+
+    <!-- 画像表示（サムネイル） -->
+    <% if post.image.attached? %>
+      <div class="mb-2">
+        <%= image_tag post.image, class: "img-thumbnail", style: "max-width: 150px;" %>
+      </div>
+    <% end %>
+
+    <!-- 投稿内容（100文字まで） -->
+    <p><%= truncate(post.content, length: 100) %></p>
+  </div>
+<% end %>
